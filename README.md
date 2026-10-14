@@ -1,13 +1,68 @@
-# S7 NLP — Assignment 1: Text Preprocessing
+# NLP Course Project
 
-A complete, end-to-end text preprocessing pipeline applied to a self-introduction paragraph.
+**Phish Lens: explainable phishing-message detection using NLP**, with the original text-preprocessing assignment preserved alongside it.
+
+**[Open the live app](https://phish-lens-topaz.vercel.app)** · **[Download v1.0.0](https://github.com/Atul013/NLP-course-project/releases/tag/v1.0.0)** · **[Read the project report](phishing-message-detection/report/Phishing_Message_Detection_Report.pdf)**
 
 **Atul** · B.Tech CSE (Artificial Intelligence), Semester 7
 Adi Shankara Institute of Engineering & Technology
 
 ---
 
-## What this is
+## Phish Lens
+
+Paste an English email or message to explore a trained classifier's prediction, uncalibrated phishing probability, influential words, and processed tokens. The responsive web interface includes examples, keyboard controls, and clear loading and error states.
+
+![Phish Lens message analysis interface](docs/screenshots/phish-lens-desktop.png)
+
+The project compares raw-text and NLTK-preprocessed TF-IDF features with logistic regression. NLTK handles tokenization, selective stopword removal, URL/email placeholders, and WordNet lemmatization. Negation is preserved.
+
+| Pipeline | Validation F1 | Test precision | Test recall | Test F1 |
+|---|---:|---:|---:|---:|
+| Raw text | 0.9744 | 0.9524 | 1.0000 | 0.9756 |
+| NLTK preprocessed | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
+
+These recorded results come from a **200-message synthetic educational dataset**, split into 120 training, 40 validation, and 40 test messages. The perfect synthetic test score does not establish real-world reliability. Probabilities are uncalibrated; the model does not inspect senders, attachments, headers, or URL reputation.
+
+The Vercel API uses the saved model's exported vocabulary, IDF values, coefficients, and intercept with the original NLTK preprocessing. Compact inference matches the original pipeline's probabilities and term contributions to 12 decimal places across 20 varied verification inputs. No retraining or paid AI API is involved.
+
+### Run the web app
+
+Use Python 3.13. From the repository root in PowerShell:
+
+```powershell
+python -m venv web/.venv
+web/.venv/Scripts/python -m pip install -r web/requirements-dev.txt
+web/.venv/Scripts/python web/export_model.py
+web/.venv/Scripts/python web/prepare.py
+web/.venv/Scripts/python web/dev.py
+```
+
+Open **http://127.0.0.1:4180**. See [web setup and deployment](web/README.md) for browser checks and Vercel deployment, or [model reproduction](phishing-message-detection/README.md) for training and the original Streamlit demo.
+
+### Verification
+
+```powershell
+web/.venv/Scripts/python -m unittest discover -s web/tests -v
+```
+
+13 API/runtime tests cover validation, model parity, bounded responses, and the lightweight runtime. The browser suite verifies real phishing/benign inference, tokens, keyboard controls, reset, safe text rendering, API failure, cancellation, and responsive layouts down to 320 px. [Deployment receipt](web/deployment.json).
+
+Messages are sent to the server for analysis. The application does not persist message text or fetch embedded links. This is an educational prototype; verify suspicious requests independently through a trusted channel.
+
+## Repository guide
+
+| Path | Contents |
+|---|---|
+| [web/](web/) | Phish Lens frontend, compact API, export tools, tests, and deployment setup |
+| [phishing-message-detection/](phishing-message-detection/) | Training pipeline, saved model, metrics, dataset provenance, course notebook, and Streamlit app |
+| [Project report](phishing-message-detection/report/Phishing_Message_Detection_Report.pdf) | Course report and [editable source](phishing-message-detection/report/Phishing_Message_Detection_Report.md) |
+| [Releases](https://github.com/Atul013/NLP-course-project/releases) | Versioned source bundle, reports, model, and evaluation artifacts |
+| [CHANGELOG.md](CHANGELOG.md) | Release history |
+
+## Original assignment: text preprocessing
+
+The original notebook and submission report remain available below.
 
 The assignment asks for a self-introduction paragraph covering *Name, Place, Schooling, Family,
 Current status, Achievements, Hobbies, Interests, Strengths and Weaknesses*, and for a full text
@@ -66,6 +121,12 @@ effect of every stage measurable.
 
 ## Run it
 
+### Phish Lens web app
+
+The phishing detector now has a dedicated web interface: **[Open Phish Lens](https://phish-lens-topaz.vercel.app)**.
+It uses the existing saved classifier and shows predictions, influential terms, and processed tokens.
+See [web/README.md](web/README.md) for local setup, checks, and deployment details.
+
 ### Google Colab
 Open `NLP_Assignment1_Text_Preprocessing.ipynb` in Colab, uncomment the `!pip install` line in the
 setup cell, and run all cells.
@@ -85,5 +146,4 @@ NLTK corpora (`punkt`, `stopwords`, `wordnet`, `averaged_perceptron_tagger`, `ma
 |------|-------------|
 | `NLP_Assignment1_Text_Preprocessing.ipynb` | The executed notebook, all outputs saved |
 | `NLP_Assignment1_Report.docx` | Submission report — code, outputs, repo link |
-| `NLP_Assignment1_Report.pdf` | PDF version of the same report |
 | `requirements.txt` | Pinned dependencies |

@@ -1,0 +1,15 @@
+.venv
+.vercel
+test-results
+tests
+__pycache__
+**/__pycache__
+nltk_data
+package.json
+package-lock.json
+README.md
+dev.py
+export_model.py
+requirements-dev.txt
+bundle/phishdetect
+bundle/phishing_detector.joblib

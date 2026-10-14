@@ -1,0 +1,25 @@
+{
+  "verified_date": "2026-10-14",
+  "project": "phish-lens",
+  "scope": "atul013s-projects",
+  "environment": "production",
+  "url": "https://phish-lens-topaz.vercel.app",
+  "deployment_id": "dpl_7mFD9PYudg2W3ZSruUvUcpn2uL1E",
+  "deployment_url": "https://phish-lens-aelft5p9k-atul013s-projects.vercel.app",
+  "state": "READY",
+  "verification": {
+    "python_tests_passed": 13,
+    "original_model_parity_inputs": 20,
+    "probability_and_contribution_decimal_places": 12,
+    "live_browser_suite": "passed",
+    "public_page_http_status": 200,
+    "model_readiness_http_status": 200,
+    "responsive_widths_px": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "security_and_cache_headers": "verified"
+  }
+}

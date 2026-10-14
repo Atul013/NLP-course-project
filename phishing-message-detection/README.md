@@ -5,6 +5,10 @@ NLTK-preprocessed TF-IDF pipeline, both using logistic regression. The demo
 classifies English email/message text as `phishing` or `benign`, shows the
 model's **uncalibrated** phishing probability, and exposes influential terms.
 
+**[Open Phish Lens](https://phish-lens-topaz.vercel.app)** for the deployed web interface.
+The [web app guide](../web/README.md) explains local setup, model export, tests, and deployment.
+[Versioned downloads and reports](https://github.com/Atul013/NLP-course-project/releases) are available in Releases.
+
 > Educational prototype only. Do not use its output as a security decision or
 > click/open message content based on this classifier.
 

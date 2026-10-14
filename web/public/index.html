@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f4f0fb">
+  <meta name="description" content="Look closer at suspicious messages. Explore phishing predictions, influential words, and the NLP behind them with Phish Lens.">
+  <title>Phish Lens — Look closer.</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#message">Skip to message editor</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="/" aria-label="Phish Lens home">
+        <svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="11" stroke="currentColor" stroke-width="3"/><path d="m24 24 8 8M10 16h12m-6-6v12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+        <span>Phish<span class="brand-light">Lens</span><small>Look closer.</small></span>
+      </a>
+      <nav>
+        <a class="nav-item active" href="#workspace" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 7v5c0 5 9 9 9 9s9-4 9-9V7z"/><path d="m8 12 3 3 5-6"/></svg>Message analysis</a>
+        <a class="nav-item" href="#model-notes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h6l2 2 2-2h6v15h-6l-2 1-2-1H4zM12 7v14"/></svg>Behind the model</a>
+      </nav>
+      <div class="sidebar-note"><span class="mini-lens" aria-hidden="true">◎</span><p>A little curiosity.<br>A closer look.</p><span>Explore what language can reveal about a message.</span></div>
+      <div class="sidebar-footer"><span class="live-dot"></span> Educational NLP project<a href="https://github.com/Atul013/NLP-course-project" target="_blank" rel="noopener noreferrer">View source <span aria-hidden="true">↗</span></a></div>
+    </aside>
+
+    <main id="workspace">
+      <header class="topbar"><span>Message workspace</span><span class="project-tag"><span class="live-dot"></span> NLP, made visible</span></header>
+      <section class="intro" aria-labelledby="page-title">
+        <div><h1 id="page-title">Read between<br>the lines.</h1><p>Some messages deserve a second look. Inspect the language,<br class="desktop-break"> understand the signals, and see what the model sees.</p></div>
+        <div class="intro-stamp" aria-hidden="true"><svg viewBox="0 0 150 150" fill="none"><circle cx="75" cy="75" r="62" stroke="currentColor" stroke-dasharray="2 7"/><circle cx="75" cy="75" r="46" stroke="currentColor"/><path d="M36 75s17-24 39-24 39 24 39 24-17 24-39 24-39-24-39-24Z" stroke="currentColor" stroke-width="1.5"/><circle cx="75" cy="75" r="12" stroke="currentColor" stroke-width="1.5"/><path d="M75 3v22m0 100v22M3 75h22m100 0h22" stroke="currentColor"/></svg><span>A different perspective</span></div>
+      </section>
+
+      <section class="analysis-grid" aria-label="Message analysis">
+        <form class="editor-panel" id="analyze-form">
+          <div class="panel-heading"><h2>Your message</h2><span class="quiet-pill">English text</span></div>
+          <div class="editor-wrap"><label for="message">Paste an email, SMS, or message</label><textarea id="message" name="message" maxlength="12000" spellcheck="false" placeholder="Hi there,&#10;&#10;Your account needs your attention…&#10;&#10;Paste a message here to take a closer look."></textarea><div class="editor-meta"><span>Subject and body work best together.</span><span id="character-count">0 / 12,000</span></div></div>
+          <div class="editor-actions"><button type="button" id="clear-button" class="text-button" disabled>Clear</button><span class="shortcut">Ctrl / ⌘ + Enter</span><button type="submit" class="analyze-button" id="analyze-button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg><span>Analyze message</span></button></div>
+          <p id="error-message" class="error-message" role="alert" hidden></p>
+          <p class="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg>Text is sent to the model server. This app does not save your messages.</p>
+        </form>
+
+        <section class="result-panel" id="result-panel" aria-label="Analysis result" aria-busy="false">
+          <div class="panel-heading"><h2>The closer look</h2><span class="result-indicator" id="result-indicator">Ready when you are</span></div>
+          <div class="result-tabs" role="tablist" aria-label="Result views"><button id="overview-tab" role="tab" aria-selected="true" aria-controls="overview-view" tabindex="0">Overview</button><button id="tokens-tab" role="tab" aria-selected="false" aria-controls="tokens-view" tabindex="-1">Processed tokens</button></div>
+          <div id="overview-view" role="tabpanel" aria-labelledby="overview-tab">
+            <div class="lens-stage" id="lens-stage">
+              <svg class="lens" viewBox="0 0 220 220" fill="none" aria-hidden="true"><circle class="lens-outer" cx="110" cy="110" r="98"/><circle class="lens-track" cx="110" cy="110" r="80"/><circle class="lens-progress" id="lens-progress" cx="110" cy="110" r="80" stroke-dasharray="502.655" stroke-dashoffset="502.655"/><circle class="lens-inner" cx="110" cy="110" r="64"/><path class="lens-ticks" d="M110 3v17m0 180v17M3 110h17m180 0h17M34 34l12 12m128 128 12 12M34 186l12-12M174 46l12-12"/><g class="empty-eye" id="empty-eye"><path d="M77 110s14-21 33-21 33 21 33 21-14 21-33 21-33-21-33-21Z"/><circle cx="110" cy="110" r="10"/></g></svg>
+              <div class="lens-value" id="lens-value" hidden><strong id="probability-value">0<span>%</span></strong><span>Phishing probability</span></div>
+            </div>
+            <div class="result-caption" aria-live="polite" aria-atomic="true"><h3 id="result-title">A fresh pair of eyes.</h3><p id="result-description">Add a message to reveal its language signals.</p></div>
+            <div class="result-details" id="result-details" hidden><div class="terms-heading"><h3>Words that shaped this result</h3><span>Model contribution</span></div><div id="influential-terms" class="influential-terms"></div><p class="probability-note">Uncalibrated model probability, not a security risk score.</p></div>
+          </div>
+          <div id="tokens-view" role="tabpanel" aria-labelledby="tokens-tab" hidden><div class="tokens-intro"><h3>The message, distilled.</h3><p>Lowercased, tokenized, stopwords filtered, and lemmatized. Negation stays; URLs and emails become placeholders.</p></div><div id="token-list" class="token-list"><p class="token-empty">Analyze a message to explore its processed tokens.</p></div><p id="token-summary" class="token-summary"></p></div>
+        </section>
+      </section>
+
+      <section class="examples" aria-labelledby="examples-title"><div class="section-heading"><h2 id="examples-title">Try a different kind of message</h2><span>No inbox required</span></div><div class="example-grid">
+        <button class="example" data-example="urgent" type="button"><span class="example-icon peach" aria-hidden="true">!</span><span><strong>The urgent request</strong><small>An account warning with a link.</small></span><span class="example-arrow" aria-hidden="true">↗</span></button>
+        <button class="example" data-example="everyday" type="button"><span class="example-icon sage" aria-hidden="true">✓</span><span><strong>The everyday update</strong><small>A project review reminder.</small></span><span class="example-arrow" aria-hidden="true">↗</span></button>
+        <button class="example" data-example="ambiguous" type="button"><span class="example-icon lilac" aria-hidden="true">?</span><span><strong>The grey area</strong><small>A notice that needs context.</small></span><span class="example-arrow" aria-hidden="true">↗</span></button>
+      </div></section>
+
+      <section class="model-notes" id="model-notes" aria-labelledby="model-title"><div class="model-intro"><div class="model-mark" aria-hidden="true">⌁</div><div><h2 id="model-title">Understand the prediction. Keep your judgment.</h2><p>A language model can spot patterns. It cannot verify a sender, inspect a link, or decide whether a message is safe.</p></div></div>
+        <details><summary>What’s behind the lens?<span aria-hidden="true">+</span></summary><div class="method-content"><div><h3>Small model. Visible reasoning.</h3><p>NLTK cleans the text. TF-IDF turns words and word pairs into features. Logistic regression compares those features with patterns learned during training. The highlighted terms show local weighted contributions, not causal explanations.</p></div><div><h3>A course project, with clear limits.</h3><p>Trained on 120 messages from a balanced, synthetic 200-message dataset. Validation used 40 messages and the held-out test used 40. The selected pipeline scored 1.00 test F1 on that small synthetic test; this does not establish real-world reliability. English only. Probabilities are uncalibrated.</p><a href="https://github.com/Atul013/NLP-course-project/tree/main/phishing-message-detection" target="_blank" rel="noopener noreferrer">Read the methodology ↗</a></div></div></details>
+      </section>
+      <footer class="page-footer"><span>Phish Lens <span class="footer-separator">/</span> An exploration in natural language processing</span><span>When in doubt, verify through a trusted channel.</span></footer>
+    </main>
+  </div>
+</body>
+</html>

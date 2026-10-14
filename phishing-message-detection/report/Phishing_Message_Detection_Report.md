@@ -1,9 +1,14 @@
 # Phishing Message Detection using NLP
 
 **Name:** Atul Biju
+
 **Class:** S7 AI
+
 **Roll number:** 21
-**GitHub:** https://github.com/Atul013/s7-nlp-assignment1/tree/codex/phishing-message-detection/phishing-message-detection
+
+**GitHub:** https://github.com/Atul013/NLP-course-project
+
+**Live application:** https://phish-lens-topaz.vercel.app
 
 ## Abstract
 
@@ -14,8 +19,9 @@ On a fixed 40-message held-out test split from a small synthetic corpus, the
 selected NLTK pipeline obtained precision, recall, and F1 of 1.0000. That score
 must be interpreted cautiously: the corpus contains only 200 balanced,
 curated messages with strong templates and is not representative of a live
-inbox. A Streamlit demo reports the predicted class, an explicitly uncalibrated
-model probability, and model-derived influential terms.
+inbox. The deployed Phish Lens web interface and the original Streamlit demo
+report the predicted class, an explicitly uncalibrated model probability, and
+model-derived influential terms.
 
 ## 1. Introduction and problem statement
 
@@ -32,7 +38,7 @@ messages labelled benign, while preventing common evaluation leakage.
 2. Compare raw and NLTK-preprocessed TF-IDF logistic-regression pipelines.
 3. Deduplicate and split data reproducibly before fitting text transforms.
 4. Report precision, recall, F1, a confusion matrix, and error evidence.
-5. Provide a reproducible notebook, tests, saved model, and Streamlit demo.
+5. Provide a reproducible notebook, tests, saved model, Streamlit demo, and deployed web interface.
 
 ## 3. Dataset, source, and license
 
@@ -99,13 +105,28 @@ absolute coefficient contribution. The interface calls this an *uncalibrated
 model probability*, not a security risk score. These contributions describe a
 linear model's calculation; they do not prove why a sender wrote the message.
 
+Phish Lens is deployed on Vercel at https://phish-lens-topaz.vercel.app.
+It adds a responsive interface, sample messages, processed-token inspection,
+keyboard controls, request validation, error handling, and cancellation of stale
+analyses. The server does not persist message text or fetch embedded links.
+
+To fit the serverless bundle limit, the fitted vocabulary, IDF values,
+coefficients, and intercept are exported without retraining. A compact Python
+runtime calculates the same sublinear TF-IDF, L2 normalization, and logistic
+probability while retaining the original NLTK preprocessing. Verification over
+20 varied inputs matches the original pipeline's probabilities and term
+contributions to 12 decimal places. WordNet and stopwords archives are
+SHA-256 verified. Thirteen API/runtime tests and live desktop/mobile browser
+checks passed on 14 October 2026. These are software verification checks,
+not additional held-out model evaluation.
+
 ## 9. Error analysis and limitations
 
 The selected model produced no errors on the 40-message test set, so individual
 false-positive/false-negative analysis is not statistically meaningful. The
-raw baseline's single false positive is saved in `artifacts/test_errors.csv`
-only for the selected model (empty) while both confusion matrices remain in
-`metrics.json`.
+`artifacts/test_errors.csv` records errors for the selected model and is empty.
+The raw baseline's single false positive is reflected in its confusion matrix;
+both pipelines' confusion matrices remain in `metrics.json`.
 
 The major limitation is external validity. The dataset is tiny, balanced,
 synthetic/curated, and contains repeated stylistic templates. Random splitting

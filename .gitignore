@@ -5,3 +5,9 @@ __pycache__/
 venv/
 *.pdf
 figure_*.png
+web/.venv/
+web/nltk_data/
+web/.vercel/
+web/bundle/
+web/test-results/
+.release/
