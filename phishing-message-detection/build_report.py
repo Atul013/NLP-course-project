@@ -32,6 +32,7 @@ def footer(canvas, doc):
 
 def build() -> None:
     styles = getSampleStyleSheet()
+    styles["Heading2"].keepWithNext = True
     styles.add(ParagraphStyle(name="Small", parent=styles["BodyText"], fontSize=8.5, leading=11))
     doc = SimpleDocTemplate(str(OUTPUT), pagesize=A4, rightMargin=20*mm, leftMargin=20*mm, topMargin=18*mm, bottomMargin=20*mm, title="Phishing Message Detection using NLP", author="Atul Biju")
     story = []
@@ -42,7 +43,8 @@ def build() -> None:
         if line.startswith("# "):
             story.extend([Spacer(1, 35*mm), Paragraph(inline(line[2:]), styles["Title"]), Spacer(1, 8*mm)])
         elif line.startswith("## "):
-            story.extend([Spacer(1, 3*mm), Paragraph(inline(line[3:]), styles["Heading2"]), Spacer(1, 1*mm)])
+            # Let Heading2's keepWithNext bind to actual content, not a spacer.
+            story.extend([Spacer(1, 3*mm), Paragraph(inline(line[3:]), styles["Heading2"])])
         elif line.startswith("!["):
             image_path = ROOT / "artifacts/confusion_matrix.png"
             story.append(Image(str(image_path), width=95*mm, height=83*mm))
